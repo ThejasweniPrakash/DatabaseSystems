@@ -1,5 +1,5 @@
 package dubstep;
-////@Author - Anunay Rao
+
 import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;

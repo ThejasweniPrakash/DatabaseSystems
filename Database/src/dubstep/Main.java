@@ -1,13 +1,13 @@
 package dubstep;
-////@Author - Anunay Rao,Apoorva Biseria
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.List;
 import java.util.Map;
 
-
+/*import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;*/
 
 import net.sf.jsqlparser.parser.CCJSqlParser;
 import net.sf.jsqlparser.parser.ParseException;
@@ -22,10 +22,7 @@ import net.sf.jsqlparser.statement.select.Union;
 public class Main {
 	
 	public static void main(String[] args) throws ParseException, IOException {
-		
-		
-		
-		
+
 		System.out.print(ConfigureVariables.PROMPT);
 		System.out.flush();
 		
@@ -33,7 +30,10 @@ public class Main {
 		CCJSqlParser parser = new CCJSqlParser(input);
 		
 		Statement statement ;
-		MainHandler sqlParserMethod = new MainHandler();
+		SQLParserMethod sqlParserMethod = new SQLParserMethod();
+
+		String basicPath = "C:\\Users\\theja\\Database\\Database\\src\\data\\";
+
 		
 		while((statement=parser.Statement()) != null) {
 			
@@ -41,7 +41,7 @@ public class Main {
                 CreateTable createTable = (CreateTable)statement;
                 sqlParserMethod.createTable(createTable);
                 
-        		//input= new InputStreamReader(System.in);
+        		input = new InputStreamReader(System.in);
         		
                 
             }
@@ -50,30 +50,25 @@ public class Main {
 				SelectBody selectBody = ((Select)statement).getSelectBody();
 
                 if(selectBody instanceof Union) {
+                    Union union = (Union)selectBody;
+                    sqlParserMethod.unionStatement(union);
                     
                     
-                    Union union =(Union)selectBody;
-            		//List<PlainSelect> plainSelects =union.getPlainSelects();
-            		MainHandler.unionStatement(union);
-                    //System.out.println(plainSelects.get(0));
-            		//System.out.println(plainSelects.get(1));
-            		/*
-            		for(PlainSelect i:plainSelects) {
-            			SQLParserMethod.plainStatement(i);
-            		}
-            		*/
-            		//System.out.println("UNION");
-                    //System.out.print(ConfigureVariables.PROMPT);
-        			//System.out.flush();
-        			//System.gc();	
-            		
+                   // HashMap<String, Integer> columnIndex = new HashMap<>();
+                   //HashSet<String> unionResult = new HashSet<String>();
+                   // Column[] tempSchema = null;
+                    
+                    System.out.print(ConfigureVariables.PROMPT);
+        			System.out.flush();
+        			System.gc();	
 		}
 			
 			else {
 				
-				//System.out.println("Plain Select Statement");
+				System.out.println("Plain Select Statement");
 				PlainSelect plain = (PlainSelect)selectBody;
-				MainHandler.plainStatement(plain);
+				//sqlParserMethod.plainStatement(plain);
+					sqlParserMethod.plainSelect(plain,basicPath);
 				
 			}
 		}
